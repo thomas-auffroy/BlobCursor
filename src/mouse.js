@@ -16,7 +16,7 @@ document.body.addEventListener("mousemove", function(e) {
 
     console.log(e.clientY);
 
-	cursor.style = `top: ${e.clientY - heightC + blob.getRadius()*scaleFactor + blob.getYPos()}px; left: ${e.clientX-widthC/2}px`;
+	cursor.style = `top: ${e.clientY - heightC + blob.getRadius()*scaleFactor - blob.getYPos()}px; left: ${e.clientX-widthC/2}px`;
 
     if (timestamp === null) {
         timestamp = Date.now();
@@ -37,18 +37,3 @@ document.body.addEventListener("mousemove", function(e) {
     lastMouseX = e.screenX;
     lastMouseY = e.screenY;
 });
-
-
-document.body.addEventListener("click", arg => {
-    const bottom = arg.target.getBoundingClientRect().bottom;
-    const middle = arg.target.getBoundingClientRect().x + arg.target.getBoundingClientRect().width* 0.5;
-
-    const a = test.getBoundingClientRect();
-
-    console.log(a);
-    console.log(arg.target.getBoundingClientRect());
-    console.log("Position blob : (%d,%d)",middle - blob.getXPos(), bottom - blob.getYPos() - blob.getRadius()*scaleFactor);
-    console.log(blob.getYPos()+blob.getRadius());
-
-})
-
