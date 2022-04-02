@@ -2,6 +2,8 @@
 	position: absolute;
 	z-index: 100;
 	pointer-events: none;
+
+	border: 1px solid transparent; /*Bug on some computers where blob left persitent shadows.*/
 }
 
 body{
