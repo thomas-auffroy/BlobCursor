@@ -1,1 +1,1 @@
-# BlobCursor
+# mouse-blob
