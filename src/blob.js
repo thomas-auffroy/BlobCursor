@@ -1,5 +1,4 @@
-function Vector(x, y)
-{
+function Vector(x, y) {
   this.x = x; 
   this.y = y; 
   
@@ -64,34 +63,28 @@ function Vector(x, y)
   }
 }
 
-function Environment(x, y, w, h)
-{
+function Environment(x, y, w, h) {
   this.left = x;   
   this.right = 4*x + w;   
   this.top = y;   
   this.buttom = 4*y + h;
 
-  this.collision = function(curPos)
-  {
+  this.collision = function(curPos) {
 	var collide = false; 
 
-	if(curPos.getX() < this.left)
-	{
+	if(curPos.getX() < this.left) {
 	  curPos.setX(this.left); 
 	  collide = true; 
 	}
-	else if(curPos.getX() > this.right)
-	{
+	else if(curPos.getX() > this.right) {
 	  curPos.setX(this.right); 
 	  collide = true; 
 	}
-	if(curPos.getY() < this.top)
-	{
+	if(curPos.getY() < this.top) {
 	  curPos.setY(this.top); 
 	  collide = true; 
 	}
-	else if(curPos.getY() > this.buttom)
-	{
+	else if(curPos.getY() > this.buttom) {
 	  curPos.setY(this.buttom); 
 	  collide = true; 
 	}
@@ -99,8 +92,7 @@ function Environment(x, y, w, h)
   }  
 }
 
-function PointMass(cx, cy, mass)
-{
+function PointMass(cx, cy, mass) {
   this.cur = new Vector(cx, cy); 
   this.prev = new Vector(cx, cy); 
   this.mass = mass; 
@@ -108,56 +100,55 @@ function PointMass(cx, cy, mass)
   this.result = new Vector(0.0, 0.0); 
   this.friction = 0.01; 
   
-  this.getXPos = function()
-  {
+  this.getXPos = function() {
 	return this.cur.getX(); 
   }
-  this.getYPos = function()
-  {
+
+  this.getYPos = function() {
 	return this.cur.getY(); 
   }
-  this.getPos = function()
-  {
+
+  this.getPos = function() {
 	return this.cur; 
   }
-  this.getXPrevPos = function()
-  {
+
+  this.getXPrevPos = function() {
 	return this.prev.getX(); 
   }
-  this.getYPrevPos = function()
-  {
+
+  this.getYPrevPos = function() {
 	return this.prev.getY(); 
   }
-  this.getPrevPos = function()
-  {
+
+  this.getPrevPos = function() {
 	return this.prev; 
   }
-  this.addXPos = function(dx)
-  {
+
+  this.addXPos = function(dx) {
 	this.cur.addX(dx); 
   }
-  this.addYPos = function(dy)
-  {
+
+  this.addYPos = function(dy) {
 	this.cur.addY(dy); 
   }
-  this.setForce = function(force)
-  {
+
+  this.setForce = function(force) {
 	this.force.set(force); 
   }    
-  this.addForce = function(force)
-  {
+
+  this.addForce = function(force) {
 	this.force.add(force); 
   }
-  this.getMass = function()
-  {
+
+  this.getMass = function() {
 	return this.mass; 
   }
-  this.setMass = function(mass)
-  {
+
+  this.setMass = function(mass) {
 	this.mass = mass; 
   }
-  this.move = function(dt)
-  {
+
+  this.move = function(dt) {
 	var t, a, c, dtdt; 
 	
 	dtdt = dt * dt; 
@@ -174,12 +165,12 @@ function PointMass(cx, cy, mass)
 	this.prev.setY(c); 
 	this.cur.setY(t);
   }
-  this.setFriction = function(friction)
-  {
+
+  this.setFriction = function(friction) {
 	this.friction = friction; 
   }
-  this.getVelocity = function()
-  {
+
+  this.getVelocity = function() {
 	var cXpX, cYpY; 
 	
 	cXpX = this.cur.getX() - this.prev.getX(); 
@@ -187,8 +178,8 @@ function PointMass(cx, cy, mass)
 	
 	return cXpX * cXpX + cYpY * cYpY;  
   }
-  this.draw = function(ctx, scaleFactor)
-  {
+
+  this.draw = function(ctx, scaleFactor) {
 	ctx.lineWidth = 2; 
 	ctx.fillStyle = '#000000'; 
 	ctx.strokeStyle = '#000000'; 
@@ -200,31 +191,27 @@ function PointMass(cx, cy, mass)
   }
 }
 
-function ConstraintY(pointMass, y, shortConst, longConst)
-{
+function ConstraintY(pointMass, y, shortConst, longConst) {
   this.pointMass = pointMass; 
   this.y = y; 
   this.delta = new Vector(0.0, 0.0);
   this.shortConst = shortConst; 
   this.longConst = longConst;  
   
-  this.sc = function()
-  {      
+  this.sc = function() {      
 	var dist; 
 	
 	dist = Math.abs(this.pointMass.getYPos() - this.y);
 	this.delta.setY(-dist); 
 	 
-	if(this.shortConst != 0.0 && dist < this.shortConst)
-	{
+	if(this.shortConst != 0.0 && dist < this.shortConst) {
 	  var scaleFactor; 
 	  
 	  scaleFactor = this.shortConst / dist; 
 	  this.delta.scale(scaleFactor); 
 	  pointMass.getPos().sub(this.delta); 
 	} 
-	else if(this.longConst != 0.0 && dist > this.longConst)
-	{
+	else if(this.longConst != 0.0 && dist > this.longConst) {
 	  var scaleFactor; 
 	  
 	  scaleFactor = this.longConst / dist; 
@@ -234,8 +221,7 @@ function ConstraintY(pointMass, y, shortConst, longConst)
   } 
 }
 
-function Joint(pointMassA, pointMassB, shortConst, longConst)
-{
+function Joint(pointMassA, pointMassB, shortConst, longConst) {
   this.pointMassA = pointMassA; 
   this.pointMassB = pointMassB; 
   this.delta = new Vector(0.0, 0.0);     
@@ -250,29 +236,27 @@ function Joint(pointMassA, pointMassB, shortConst, longConst)
   this.scSquared = this.shortConst * this.shortConst; 
   this.lcSquared = this.longConst * this.longConst; 
 
-  this.setDist = function(shortConst, longConst)
-  {
+  this.setDist = function(shortConst, longConst) {
 	this.shortConst = shortConst; 
 	this.longConst = longConst; 
 	this.scSquared = this.shortConst * this.shortConst; 
 	this.lcSquared = this.longConst * this.longConst;     
   }
-  this.scale = function(scaleFactor)
-  {
+
+  this.scale = function(scaleFactor) {
 	this.shortConst = this.shortConst * scaleFactor; 
 	this.longConst = this.longConst * scaleFactor; 
 	this.scSquared = this.shortConst * this.shortConst; 
 	this.lcSquared = this.longConst * this.longConst;     
   }
-  this.sc = function()
-  {      
+
+  this.sc = function() {      
 	this.delta.set(this.pointMassBPos); 
 	this.delta.sub(this.pointMassAPos); 
 
 	var dp = this.delta.dotProd(this.delta);
 	
-	if(this.shortConst != 0.0 && dp < this.scSquared)
-	{
+	if(this.shortConst != 0.0 && dp < this.scSquared) {
 	  var scaleFactor; 
 	  
 	  scaleFactor = this.scSquared / (dp + this.scSquared) - 0.5; 
@@ -282,8 +266,7 @@ function Joint(pointMassA, pointMassB, shortConst, longConst)
 	  this.pointMassAPos.sub(this.delta); 
 	  this.pointMassBPos.add(this.delta); 
 	} 
-	else if(this.longConst != 0.0 && dp > this.lcSquared)
-	{
+	else if(this.longConst != 0.0 && dp > this.lcSquared) {
 	  var scaleFactor;
 	  
 	  scaleFactor = this.lcSquared / (dp + this.lcSquared) - 0.5; 
@@ -296,10 +279,8 @@ function Joint(pointMassA, pointMassB, shortConst, longConst)
   } 
 }
   
-function Stick(pointMassA, pointMassB)
-{
-  function pointMassDist(pointMassA, pointMassB)
-  {
+function Stick(pointMassA, pointMassB) {
+  function pointMassDist(pointMassA, pointMassB) {
 	var aXbX, aYbY; 
   
 	aXbX = pointMassA.getXPos() - pointMassB.getXPos(); 
@@ -314,21 +295,20 @@ function Stick(pointMassA, pointMassB)
   this.pointMassB = pointMassB; 
   this.delta = new Vector(0.0, 0.0); 
   
-  this.getPointMassA = function()
-  {
+  this.getPointMassA = function() {
 	return this.pointMassA; 
   }
-  this.getPointMassB = function()
-  {
+
+  this.getPointMassB = function() {
 	return this.pointMassB; 
   }
-  this.scale = function(scaleFactor)
-  {
+
+  this.scale = function(scaleFactor) {
 	this.length *= scaleFactor; 
 	this.lengthSquared = this.length * this.length; 
   }
-  this.sc = function(env)
-  {
+
+  this.sc = function(env) {
 	var dotProd, scaleFactor; 
 	var pointMassAPos, pointMassBPos; 
   
@@ -346,23 +326,23 @@ function Stick(pointMassA, pointMassB)
 	pointMassAPos.sub(this.delta); 
 	pointMassBPos.add(this.delta); 
   }
-  this.setForce = function(force)
-  {
+
+  this.setForce = function(force) {
 	this.pointMassA.setForce(force); 
 	this.pointMassB.setForce(force); 
   }
-  this.addForce = function(force)
-  {
+
+  this.addForce = function(force) {
 	this.pointMassA.addForce(force); 
 	this.pointMassB.addForce(force); 
   }
-  this.move = function(dt)
-  {
+
+  this.move = function(dt) {
 	this.pointMassA.move(dt); 
 	this.pointMassB.move(dt); 
   }
-  this.draw = function(ctx, scaleFactor)
-  {
+
+  this.draw = function(ctx, scaleFactor) {
 	this.pointMassA.draw(ctx, scaleFactor); 
 	this.pointMassB.draw(ctx, scaleFactor); 
 		  
@@ -378,8 +358,7 @@ function Stick(pointMassA, pointMassB)
   }
 }
 
-function Spring(restLength, stiffness, damper, pointMassA, pointMassB)
-{
+function Spring(restLength, stiffness, damper, pointMassA, pointMassB) {
   this.restLength = restLength; 
   this.stiffness = stiffness; 
   this.damper = damper; 
@@ -387,14 +366,12 @@ function Spring(restLength, stiffness, damper, pointMassA, pointMassB)
   this.pointMassB = pointMassB; 
   this.tmp = Vector(0.0, 0.0); 
   
-  this.sc = function(env)
-  {
+  this.sc = function(env) {
 	env.collistion(this.pointMassA.getPos(), this.pointMassA.getPrevPos()); 
 	env.collistion(this.pointMassB.getPos(), this.pointMassB.getPrevPos()); 
   }
   
-  this.move = function(dt)
-  {
+  this.move = function(dt) {
 	var aXbX;
 	var aYbY;
 	var springForce; 
@@ -433,13 +410,13 @@ function Spring(restLength, stiffness, damper, pointMassA, pointMassB)
 	this.pointMassA.move(dt); 
 	this.pointMassB.move(dt); 
   }
-  this.addForce = function(force)
-  {
+
+  this.addForce = function(force) {
 	this.pointMassA.addForce(force); 
 	this.pointMassB.addForce(force); 
   }
-  this.draw = function(ctx, scaleFactor)
-  {
+
+  this.draw = function(ctx, scaleFactor) {
 	this.pointMassA.draw(ctx, scaleFactor); 
 	this.pointMassB.draw(ctx, scaleFactor); 
 	
@@ -454,8 +431,7 @@ function Spring(restLength, stiffness, damper, pointMassA, pointMassB)
   }
 }
 
-function Blob(x, y, radius, numPointMasses)
-{
+function Blob(x, y, radius, numPointMasses) {
 	this.x = x; 
 	this.y = y; 
 	this.sticks = new Array(); 
