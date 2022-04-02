@@ -2,10 +2,6 @@ function Vector(x, y) {
   this.x = x; 
   this.y = y; 
   
-  this.equal = function(v) {
-	return this.x == v.getX() && this.y == v.getY(); 
-  }
-
   this.getX = function() {
 	return this.x; 
   }
@@ -56,10 +52,6 @@ function Vector(x, y) {
   this.scale = function(scaleFactor) {
 	this.x *= scaleFactor; 
 	this.y *= scaleFactor; 
-  }
-
-  this.toString = function() {
-	return " X: " + this.x + " Y: " + this.y; 
   }
 }
 
@@ -168,15 +160,6 @@ function PointMass(cx, cy, mass) {
 
   this.setFriction = function(friction) {
 	this.friction = friction; 
-  }
-
-  this.getVelocity = function() {
-	var cXpX, cYpY; 
-	
-	cXpX = this.cur.getX() - this.prev.getX(); 
-	cYpY = this.cur.getY() - this.prev.getY();
-	
-	return cXpX * cXpX + cYpY * cYpY;  
   }
 
   this.draw = function(ctx, scaleFactor) {
@@ -465,13 +448,6 @@ function Blob(x, y, radius, numPointMasses) {
 		this.joints[p++] = new Joint(this.pointMasses[i], this.pointMasses[clampIndex(i + numPointMasses / 2 + 1, numPointMasses)], low, high);  
 		this.joints[p++] = new Joint(this.pointMasses[i], this.middlePointMass, high * 0.9, low * 1.1); // 0.8, 1.2 works  // 0.9 1.1 //
 	}
-
-	this.toggleClick = function(){
-		this.clicked = !this.clicked;
-		if (!this.clicked){
-			this.timestamp = 0;
-		}
-	}
   
 	this.getMiddlePointMass = function() {
 		return this.middlePointMass; 
@@ -606,19 +582,6 @@ function Blob(x, y, radius, numPointMasses) {
 		ctx.strokeStyle = "#000000"; 
 		ctx.fillStyle = "rgba(255,255,255,0)";
 
-		// if (this.clicked){
-		// 	this.timestamp += 2;
-		// 	if (this.timestamp > 99){this.timestamp = 99}
-		// 	var gradient = ctx.createRadialGradient(50,50,35, 50,50,10);
-		// 	// gradient.addColorStop(0, 'rgba(80,201,39,0.767927239255077)');
-		// 	gradient.addColorStop(0, 'rgba(0,0,0,1)');
-		// 	gradient.addColorStop(this.timestamp/100, 'rgba(80,201,39,0.767927239255077)');
-		// 	gradient.addColorStop(1, 'rgba(0,194,255,0.3169468470982143)');
-		// 	ctx.fillStyle = gradient;
-		// } else {
-		// 	ctx.fillStyle = "rgba(255,255,255,0)";
-		// }
-
 		this.drawBody(ctx, scaleFactor); 
 
 		ctx.save(); 
@@ -697,14 +660,6 @@ function init() {
 	env = new Environment(0.1, 0.1, 2.4, 7.5); 
 	blob = new Blob(1.0, 1.0, 0.5, 8); 
 	gravity = new Vector(0.0, 10.0); 
-
-
-	document.body.addEventListener("mousedown", () => {
-		blob.toggleClick();
-	})
-	document.body.addEventListener("mouseup", () => {
-		blob.toggleClick();
-	})
 
 	timeout(); 
 }
