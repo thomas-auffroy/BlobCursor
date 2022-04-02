@@ -9,12 +9,7 @@ const heightC = cursor.getBoundingClientRect().height;
 let speedX = 0;
 let speedY = 0;
 
-const test = document.getElementById("test");
-
-
 document.body.addEventListener("mousemove", function(e) {
-
-    console.log(e.clientY);
 
 	cursor.style = `top: ${e.clientY - heightC + blob.getRadius()*scaleFactor - blob.getYPos()}px; left: ${e.clientX-widthC/2}px`;
 
