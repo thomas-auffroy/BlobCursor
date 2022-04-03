@@ -57,9 +57,10 @@ function Vector(x, y) {
 
 function Environment(x, y, w, h) {
 	this.left = x;
-	this.right = 4 * x + w;
 	this.top = y;
-	this.buttom = 4 * y + h;
+
+	this.right = x + w;
+	this.buttom = y + h;
 
 	this.collision = function (curPos) {
 		var collide = false;
@@ -627,7 +628,7 @@ function update() {
 	blob.move(dt);
 	blob.sc(env);
 	blob.setForce(gravity);
-	blob.centered(1.45);
+	// blob.centered(15);
 }
 
 function draw() {
@@ -656,7 +657,7 @@ function init() {
 		blob.addForce(tmpForce);
 	});
 
-	env = new Environment(0.1, 0.1, 2.4, 7.5);
+	env = new Environment(3/scaleFactor, 3/scaleFactor, (width-6)/scaleFactor, (height - 6)/scaleFactor);
 	blob = new Blob(1.0, 1.0, 0.5, 8);
 	gravity = new Vector(0.0, 10.0);
 
