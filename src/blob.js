@@ -606,9 +606,11 @@ function Blob(x, y, radius, numPointMasses) {
 		tmpForce = new Vector(0.0, 0.0);
 
 		if (this.getXPos() < center) {
-			tmpForce.setX(2 * (this.getXPos() + center) * (Math.random() * 0.75 + 0.25));
+			// tmpForce.setX(2 * (this.getXPos() + center) * (Math.random() * 0.75 + 0.25));
+			tmpForce.setX(2 * (Math.random() * 0.75 + 0.25));
 		} else if (this.getXPos() > center) {
-			tmpForce.setX(2 * (center - this.getXPos()) * (Math.random() * 0.75 + 0.25));
+			// tmpForce.setX(2 * (center - this.getXPos()) * (Math.random() * 0.75 + 0.25));
+			tmpForce.setX(-2 * (Math.random() * 0.75 + 0.25));
 		}
 
 		this.addForce(tmpForce);
@@ -628,7 +630,7 @@ function update() {
 	blob.move(dt);
 	blob.sc(env);
 	blob.setForce(gravity);
-	// blob.centered(15);
+	blob.centered((width*0.5)/scaleFactor);
 }
 
 function draw() {
