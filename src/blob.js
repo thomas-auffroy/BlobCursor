@@ -163,10 +163,10 @@ function PointMass(cx, cy, mass) {
 		this.friction = friction;
 	}
 
-	this.draw = function (ctx, scaleFactor) {
+	this.draw = function (ctx, scaleFactor, color) {
 		ctx.lineWidth = 2;
-		ctx.fillStyle = '#000000';
-		ctx.strokeStyle = '#000000';
+		ctx.fillStyle = color;
+		ctx.strokeStyle = color;
 		ctx.beginPath();
 		ctx.arc(this.cur.getX() * scaleFactor,
 			this.cur.getY() * scaleFactor,
@@ -576,10 +576,10 @@ function Blob(x, y, radius, numPointMasses) {
 		}
 	}
 
-	this.draw = function (ctx, scaleFactor) {
+	this.draw = function (ctx, scaleFactor, color) {
 		var up, ori, ang;
 
-		ctx.strokeStyle = "#000000";
+		ctx.strokeStyle = color;
 		ctx.fillStyle = "rgba(255,255,255,0)";
 
 		this.drawBody(ctx, scaleFactor);
@@ -606,10 +606,8 @@ function Blob(x, y, radius, numPointMasses) {
 		tmpForce = new Vector(0.0, 0.0);
 
 		if (this.getXPos() < center) {
-			// tmpForce.setX(2 * (this.getXPos() + center) * (Math.random() * 0.75 + 0.25));
 			tmpForce.setX(2 * (Math.random() * 0.75 + 0.25));
 		} else if (this.getXPos() > center) {
-			// tmpForce.setX(2 * (center - this.getXPos()) * (Math.random() * 0.75 + 0.25));
 			tmpForce.setX(-2 * (Math.random() * 0.75 + 0.25));
 		}
 
@@ -623,6 +621,8 @@ var height = document.getElementById('blob').height;
 var scaleFactor = 50;
 var blob;
 var gravity;
+var outlineColor = "#000000";
+var centerColor = "#000000";
 
 function update() {
 	var dt = 0.025;
@@ -640,9 +640,9 @@ function draw() {
 
 	ctx.clearRect(0, 0, width, height);
 
-	blob.draw(ctx, scaleFactor);
+	blob.draw(ctx, scaleFactor, outlineColor);
 
-	blob.getMiddlePointMass().draw(ctx, scaleFactor);
+	blob.getMiddlePointMass().draw(ctx, scaleFactor, centerColor);
 }
 
 function timeout() {
