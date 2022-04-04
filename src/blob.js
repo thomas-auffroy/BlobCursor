@@ -652,14 +652,7 @@ function timeout() {
 }
 
 function init() {
-	document.body.addEventListener("mousemove", () => {
-		tmpForce = new Vector(0.0, 0.0);
-		tmpForce.setX(speedX * 2 * (Math.random() * 0.75 + 0.25));
-		tmpForce.setY(speedY * 2 * (Math.random() * 0.75 + 0.25));
-		blob.addForce(tmpForce);
-	});
-
-	env = new Environment(3/scaleFactor, 3/scaleFactor, (width-6)/scaleFactor, (height - 6)/scaleFactor);
+	env = new Environment(3/scaleFactor, 3/scaleFactor, (width-6)/scaleFactor, (height - 8)/scaleFactor);
 	blob = new Blob(1.0, 1.0, 0.5, 8);
 	gravity = new Vector(0.0, 10.0);
 
