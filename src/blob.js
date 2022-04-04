@@ -292,7 +292,7 @@ function Stick(pointMassA, pointMassB) {
 		this.lengthSquared = this.length * this.length;
 	}
 
-	this.sc = function (env) {
+	this.sc = function () {
 		var dotProd, scaleFactor;
 		var pointMassAPos, pointMassBPos;
 
@@ -568,12 +568,6 @@ function Blob(x, y, radius, numPointMasses) {
 		ctx.closePath();
 		ctx.stroke();
 		ctx.fill();
-	}
-
-	this.drawSimpleBody = function (ctx, scaleFactor) {
-		for (let i = 0; i < this.sticks.length; i++) {
-			this.sticks[i].draw(ctx, scaleFactor);
-		}
 	}
 
 	this.draw = function (ctx, scaleFactor, color) {
